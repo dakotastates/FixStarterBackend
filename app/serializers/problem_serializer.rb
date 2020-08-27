@@ -1,3 +1,3 @@
 class ProblemSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :problemTitle, :description, :created_at, :longitude, :latitude
 end
