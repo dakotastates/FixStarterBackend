@@ -1,8 +1,10 @@
 class Api::V1::ProblemsController < ApplicationController
 before_action :find_problem, only:[:show, :update, :destroy]
+skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy]
   def index
-    problems = Problem.all
-    render json: { problems: ProblemSerializer.new(@problems) }, status: :created
+
+    @problems = Problem.all
+    render json: @problems
 
   end
 
@@ -11,6 +13,7 @@ before_action :find_problem, only:[:show, :update, :destroy]
   end
 
   def create
+
     @problem = Problem.create(problem_params)
     if @problem.valid?
       render json: { problem: ProblemSerializer.new(@problem) }, status: :created
