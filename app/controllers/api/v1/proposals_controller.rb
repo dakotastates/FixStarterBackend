@@ -2,8 +2,7 @@ class Api::V1::PropsoalsController < ApplicationController
 before_action :find_proposal, only:[:show, :update, :destroy]
   def index
     @proposals = Proposal.all
-    render json: { proposals: ProposalSerializer.new(@proposals) }, status: :created
-
+      render json: @proposals
   end
 
   def show
@@ -40,4 +39,5 @@ before_action :find_proposal, only:[:show, :update, :destroy]
   def find_proposal
     @proposal = Proposal.find_by_id(params[:id])
   end
+  
 end
