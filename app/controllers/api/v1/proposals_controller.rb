@@ -1,5 +1,7 @@
-class Api::V1::PropsoalsController < ApplicationController
+class Api::V1::ProposalsController < ApplicationController
 before_action :find_proposal, only:[:show, :update, :destroy]
+skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy]
+
   def index
     @proposals = Proposal.all
       render json: @proposals
@@ -10,11 +12,12 @@ before_action :find_proposal, only:[:show, :update, :destroy]
   end
 
   def create
-    @problem = Problem.create(problem_params)
-    if @problem.valid?
-      render json: { problem: ProposalSerializer.new(@proposal) }, status: :created
+    
+    @proposal = Proposal.create(proposal_params)
+    if @proposal.valid?
+      render json: { proposal: ProposalSerializer.new(@proposal) }, status: :created
     else
-      render json: { error: 'failed to report proposal' }, status: :not_acceptable
+      render json: { error: 'failed to submit proposal' }, status: :not_acceptable
     end
   end
 
@@ -33,11 +36,11 @@ before_action :find_proposal, only:[:show, :update, :destroy]
 
   private
   def proposal_params
-    params.require(:proposal).permit(:title, :description, :problem_id)
+    params.require(:proposal).permit(:title, :description, :problem_id, :user_id)
   end
 
   def find_proposal
     @proposal = Proposal.find_by_id(params[:id])
   end
-  
+
 end

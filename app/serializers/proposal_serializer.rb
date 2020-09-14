@@ -1,3 +1,3 @@
 class ProposalSerializer < ActiveModel::Serializer
-  attributes :id, :title, :descrition, :created_at, :problemTitle
+  attributes :id, :title, :description, :created_at 
 end
