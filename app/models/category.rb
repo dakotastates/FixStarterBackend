@@ -1,3 +1,3 @@
 class Category < ApplicationRecord
-  belongs_to :problem
+  has_many :problem_categories
 end

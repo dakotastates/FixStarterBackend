@@ -10,17 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_225653) do
+ActiveRecord::Schema.define(version: 2020_09_23_212843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
-    t.bigint "problem_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["problem_id"], name: "index_categories_on_problem_id"
+  end
+
+  create_table "problem_categories", force: :cascade do |t|
+    t.bigint "problem_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_problem_categories_on_category_id"
+    t.index ["problem_id"], name: "index_problem_categories_on_problem_id"
   end
 
   create_table "problems", force: :cascade do |t|
@@ -34,6 +41,25 @@ ActiveRecord::Schema.define(version: 2020_09_07_225653) do
     t.index ["user_id"], name: "index_problems_on_user_id"
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.bigint "proposal_id", null: false
+    t.boolean "active", default: true
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["proposal_id"], name: "index_projects_on_proposal_id"
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
+  create_table "proposal_resources", force: :cascade do |t|
+    t.bigint "resource_id", null: false
+    t.bigint "proposal_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["proposal_id"], name: "index_proposal_resources_on_proposal_id"
+    t.index ["resource_id"], name: "index_proposal_resources_on_resource_id"
+  end
+
   create_table "proposals", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -43,6 +69,12 @@ ActiveRecord::Schema.define(version: 2020_09_07_225653) do
     t.bigint "user_id", null: false
     t.index ["problem_id"], name: "index_proposals_on_problem_id"
     t.index ["user_id"], name: "index_proposals_on_user_id"
+  end
+
+  create_table "resources", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -56,8 +88,13 @@ ActiveRecord::Schema.define(version: 2020_09_07_225653) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "categories", "problems"
+  add_foreign_key "problem_categories", "categories"
+  add_foreign_key "problem_categories", "problems"
   add_foreign_key "problems", "users"
+  add_foreign_key "projects", "proposals"
+  add_foreign_key "projects", "users"
+  add_foreign_key "proposal_resources", "proposals"
+  add_foreign_key "proposal_resources", "resources"
   add_foreign_key "proposals", "problems"
   add_foreign_key "proposals", "users"
 end
