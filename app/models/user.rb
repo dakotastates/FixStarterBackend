@@ -4,4 +4,8 @@ class User < ApplicationRecord
   has_many :problems, dependent: :destroy
   has_many :proposals, dependent: :destroy
   has_many :projects, dependent: :destroy
+  has_many :educations
+  has_many :degrees, through: :educations
+  has_many :fields, through: :educations
+  has_many :institutions, through: :educations
 end
