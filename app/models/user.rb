@@ -8,4 +8,6 @@ class User < ApplicationRecord
   has_many :degrees, through: :educations
   has_many :fields, through: :educations
   has_many :institutions, through: :educations
+  has_many :comments
+  has_many :messages
 end
