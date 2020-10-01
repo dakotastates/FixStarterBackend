@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
       #get '/problems/:id/proposals', to: 'proposals#index'
+      resources :comments, only: [:index, :create, :show, :update, :destroy]
+      resources :messages, only: [:index, :create, :show, :update, :destroy]
 
 
     end

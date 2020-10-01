@@ -37,7 +37,7 @@ skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy
 
   private
   def problem_params
-    params.require(:problem).permit(:problemTitle, :description, :longitude, :latitude, :user_id)
+    params.require(:problem).permit(:problemTitle, :description, :longitude, :latitude, :user_id, :status)
   end
 
   def find_problem

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_28_015818) do
+ActiveRecord::Schema.define(version: 2020_10_01_011647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,15 @@ ActiveRecord::Schema.define(version: 2020_09_28_015818) do
     t.index ["problem_id"], name: "index_problem_categories_on_problem_id"
   end
 
+  create_table "problem_consultations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "problem_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["problem_id"], name: "index_problem_consultations_on_problem_id"
+    t.index ["user_id"], name: "index_problem_consultations_on_user_id"
+  end
+
   create_table "problems", force: :cascade do |t|
     t.string "problemTitle"
     t.string "description"
@@ -112,6 +121,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_015818) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.boolean "status"
     t.index ["user_id"], name: "index_problems_on_user_id"
   end
 
@@ -127,6 +137,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_015818) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "status"
     t.index ["proposal_id"], name: "index_projects_on_proposal_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
@@ -167,6 +178,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_015818) do
     t.string "avatar"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "admin_level", default: 0
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -178,6 +190,8 @@ ActiveRecord::Schema.define(version: 2020_09_28_015818) do
   add_foreign_key "messages", "users"
   add_foreign_key "problem_categories", "categories"
   add_foreign_key "problem_categories", "problems"
+  add_foreign_key "problem_consultations", "problems"
+  add_foreign_key "problem_consultations", "users"
   add_foreign_key "problems", "users"
   add_foreign_key "projects", "proposals"
   add_foreign_key "projects", "users"

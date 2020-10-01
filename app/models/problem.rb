@@ -3,4 +3,5 @@ class Problem < ApplicationRecord
   has_many :proposals, dependent: :destroy
   has_many :problem_categories
   has_many :categories, through: :problem_categories
+  has_one :problem_consultation
 end

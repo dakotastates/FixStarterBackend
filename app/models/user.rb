@@ -10,4 +10,5 @@ class User < ApplicationRecord
   has_many :institutions, through: :educations
   has_many :comments
   has_many :messages
+  has_many :problem_consultations
 end
