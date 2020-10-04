@@ -14,7 +14,7 @@ skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy
 
   def create
 
-    @comment = comment.create(comment_params)
+    @comment = Comment.create(comment_params)
     if @comment.valid?
       render json: { comment: commentSerializer.new(@comment) }, status: :created
     else
@@ -41,6 +41,6 @@ skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy
   end
 
   def find_comment
-    @comment = comment.find_by_id(params[:id])
+    @comment = Comment.find_by_id(params[:id])
   end
 end
