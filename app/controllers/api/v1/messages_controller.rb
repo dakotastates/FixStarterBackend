@@ -3,7 +3,7 @@ before_action :find_message, only:[:show, :update, :destroy]
 skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy]
   def index
 
-    @messages = Messages.all
+    @messages = Message.all
     render json: @messages
 
   end
